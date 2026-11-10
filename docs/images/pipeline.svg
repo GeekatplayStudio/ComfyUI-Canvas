@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 470" width="1100" height="470" font-family="Segoe UI, Inter, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#6ea8fe"/>
+    </marker>
+  </defs>
+  <rect width="1100" height="470" rx="14" fill="#17181c"/>
+
+  <!-- browser -->
+  <rect x="24" y="24" width="330" height="422" rx="12" fill="#1f2126" stroke="#383b44"/>
+  <text x="44" y="56" fill="#9aa0ac" font-size="13" font-weight="600" letter-spacing="1">IN THE BROWSER</text>
+  <text x="44" y="88" fill="#e7e9ee" font-size="19" font-weight="700">Canvas workspace</text>
+  <g font-size="14" fill="#c8ccd6">
+    <text x="44" y="122">• Images inside the frame = the picture</text>
+    <text x="44" y="146">• Images outside = reference shelf</text>
+    <text x="44" y="170">• Pen sketches (strokes group)</text>
+    <text x="44" y="194">• Pinned notes, @image1 / @sketch1</text>
+    <text x="44" y="218">• Model, ratio, megapixels</text>
+  </g>
+  <rect x="44" y="240" width="290" height="86" rx="8" fill="#15161a" stroke="#383b44"/>
+  <text x="58" y="266" fill="#e7e9ee" font-size="14" font-weight="600">On Run, the browser renders</text>
+  <text x="58" y="290" fill="#c8ccd6" font-size="13">layout · annotated frame · off-frame</text>
+  <text x="58" y="310" fill="#c8ccd6" font-size="13">sketches → input/geekatplay_canvas/</text>
+  <rect x="44" y="342" width="290" height="84" rx="8" fill="#15161a" stroke="#383b44"/>
+  <text x="58" y="368" fill="#e7e9ee" font-size="14" font-weight="600">Scene JSON</text>
+  <text x="58" y="392" fill="#c8ccd6" font-size="13">items · notes · frame · model</text>
+  <text x="58" y="412" fill="#c8ccd6" font-size="13">saved inside the workflow</text>
+
+  <line x1="356" y1="235" x2="402" y2="235" stroke="#6ea8fe" stroke-width="3" marker-end="url(#a)"/>
+
+  <!-- node -->
+  <rect x="406" y="24" width="330" height="422" rx="12" fill="#1f2126" stroke="#383b44"/>
+  <text x="426" y="56" fill="#9aa0ac" font-size="13" font-weight="600" letter-spacing="1">GEEKATPLAY CANVAS NODE</text>
+  <text x="426" y="88" fill="#e7e9ee" font-size="19" font-weight="700">Prompt compiler</text>
+  <g font-size="14" fill="#c8ccd6">
+    <text x="426" y="122">1. Base image or layout guide?</text>
+    <text x="426" y="146">2. Order images into model slots</text>
+    <text x="426" y="170">3. Link every note to the item</text>
+    <text x="482" y="190">under / nearest to its pin</text>
+    <text x="426" y="214">4. Rename @image2 → Picture 3,</text>
+    <text x="482" y="234">image 3, @Image3, &lt;ref_image_2&gt;</text>
+    <text x="426" y="258">5. Write prose, a box table or</text>
+    <text x="482" y="278">JSON layout for the model</text>
+  </g>
+  <rect x="426" y="300" width="290" height="126" rx="8" fill="#15161a" stroke="#383b44"/>
+  <text x="440" y="326" fill="#e7e9ee" font-size="14" font-weight="600">Outputs</text>
+  <g font-size="13" fill="#c8ccd6">
+    <text x="440" y="350">prompt · image_1 … image_8</text>
+    <text x="440" y="372">width · height · annotated</text>
+    <text x="440" y="394">brief · director (optional LLM pass)</text>
+  </g>
+
+  <line x1="738" y1="235" x2="784" y2="235" stroke="#6ea8fe" stroke-width="3" marker-end="url(#a)"/>
+
+  <!-- models -->
+  <rect x="788" y="24" width="288" height="422" rx="12" fill="#1f2126" stroke="#383b44"/>
+  <text x="808" y="56" fill="#9aa0ac" font-size="13" font-weight="600" letter-spacing="1">NATIVE COMFYUI NODES</text>
+  <text x="808" y="88" fill="#e7e9ee" font-size="19" font-weight="700">Image model</text>
+  <g font-size="14">
+    <rect x="808" y="106" width="248" height="34" rx="7" fill="#24324a"/><text x="820" y="128" fill="#e7e9ee">Qwen Image Edit 2511 / 2.1</text>
+    <rect x="808" y="148" width="248" height="34" rx="7" fill="#24324a"/><text x="820" y="170" fill="#e7e9ee">FLUX.2 Klein / Dev · FLUX 3</text>
+    <rect x="808" y="190" width="248" height="34" rx="7" fill="#24324a"/><text x="820" y="212" fill="#e7e9ee">MOSS-Image · Ideogram 4</text>
+    <rect x="808" y="232" width="248" height="34" rx="7" fill="#24324a"/><text x="820" y="254" fill="#e7e9ee">Any text-to-image model</text>
+    <rect x="808" y="274" width="248" height="34" rx="7" fill="#3a2f1a"/><text x="820" y="296" fill="#ffd28a">Nano Banana · GPT Image</text>
+    <rect x="808" y="316" width="248" height="34" rx="7" fill="#3a2f1a"/><text x="820" y="338" fill="#ffd28a">Seedream · Qwen Image 3 API</text>
+  </g>
+  <text x="808" y="378" fill="#9aa0ac" font-size="12">blue = runs locally</text>
+  <text x="808" y="396" fill="#9aa0ac" font-size="12">amber = partner API (credits)</text>
+  <text x="808" y="426" fill="#e7e9ee" font-size="14" font-weight="600">→ KSampler → Save Image</text>
+</svg>

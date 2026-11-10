@@ -1,0 +1,75 @@
+.gapc-host { width: 100%; height: 100%; min-height: 480px; position: relative; }
+.gapc-root {
+  --gapc-bg: var(--comfy-menu-bg, #1f2126);
+  --gapc-panel: var(--comfy-input-bg, #15161a);
+  --gapc-fg: var(--fg-color, #e7e9ee);
+  --gapc-dim: var(--descrip-text, #9aa0ac);
+  --gapc-line: var(--border-color, #383b44);
+  --gapc-accent: #6ea8fe;
+  --gapc-note: #ffb224;
+  --gapc-warn: #ffb224;
+  position: absolute; inset: 0; display: flex; flex-direction: column; overflow: hidden;
+  background: var(--gapc-bg); color: var(--gapc-fg); border: 1px solid var(--gapc-line); border-radius: 8px;
+  font: 12px/1.35 Inter, "Segoe UI", system-ui, -apple-system, sans-serif; outline: none; box-sizing: border-box;
+  user-select: none; -webkit-user-select: none;
+}
+.gapc-root *, .gapc-root *::before { box-sizing: border-box; }
+.gapc-root:focus-within { border-color: var(--gapc-accent); }
+.gapc-root.gapc-max { position: fixed; inset: 0; z-index: 10000; border-radius: 0; }
+
+.gapc-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 6px; padding: 5px 6px; border-bottom: 1px solid var(--gapc-line); flex: none; }
+.gapc-group { display: flex; align-items: center; gap: 2px; }
+.gapc-sep { width: 1px; align-self: stretch; margin: 2px 2px; background: var(--gapc-line); }
+.gapc-grow { flex: 1 1 0; min-width: 0; }
+.gapc-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px; height: 28px; min-width: 28px; padding: 0 6px;
+  color: var(--gapc-fg); background: transparent; border: 1px solid transparent; border-radius: 6px; cursor: pointer; font: inherit; white-space: nowrap;
+}
+.gapc-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.gapc-btn:hover { background: color-mix(in srgb, var(--gapc-fg) 10%, transparent); }
+.gapc-btn:focus-visible, .gapc-select:focus-visible, .gapc-swatch:focus-visible { outline: 2px solid var(--gapc-accent); outline-offset: 1px; }
+.gapc-btn.gapc-on { background: color-mix(in srgb, var(--gapc-accent) 24%, transparent); border-color: var(--gapc-accent); color: #fff; }
+.gapc-btn:disabled { opacity: .35; cursor: default; background: transparent; }
+.gapc-select {
+  height: 28px; max-width: 168px; padding: 0 4px; color: var(--gapc-fg); background: var(--gapc-panel); border: 1px solid var(--gapc-line); border-radius: 6px; font: inherit; cursor: pointer;
+}
+.gapc-select.gapc-short { max-width: 84px; }
+.gapc-select option, .gapc-select optgroup { background: #1b1c20; color: #e7e9ee; }
+.gapc-swatch { width: 18px; height: 18px; padding: 0; border-radius: 50%; border: 2px solid transparent; cursor: pointer; box-shadow: 0 0 0 1px rgba(128,128,128,.55) inset; }
+.gapc-swatch.gapc-on { border-color: var(--gapc-fg); }
+.gapc-color { width: 22px; height: 22px; padding: 0; border: 0; background: none; cursor: pointer; }
+.gapc-range { width: 70px; accent-color: var(--gapc-accent); }
+.gapc-pen { display: none; align-items: center; gap: 4px; }
+.gapc-root[data-tool="pen"] .gapc-pen { display: flex; }
+.gapc-root[data-tool="eraser"] .gapc-pen-size { display: flex; }
+
+.gapc-stage { position: relative; flex: 1 1 0; min-height: 0; overflow: hidden; background: #17181c; }
+.gapc-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; outline: none; }
+.gapc-drop { position: absolute; inset: 8px; display: none; align-items: center; justify-content: center; border: 2px dashed var(--gapc-accent); border-radius: 10px;
+  background: color-mix(in srgb, var(--gapc-accent) 12%, transparent); color: #fff; font-size: 14px; pointer-events: none; }
+.gapc-stage.gapc-dragging .gapc-drop { display: flex; }
+
+.gapc-edit { position: absolute; z-index: 5; width: 240px; padding: 6px 8px; color: #fff; background: #23252b; border: 1px solid var(--gapc-note); border-radius: 8px;
+  font: inherit; resize: none; outline: none; box-shadow: 0 6px 20px rgba(0,0,0,.45); user-select: text; -webkit-user-select: text; }
+.gapc-edit.gapc-name { border-color: var(--gapc-accent); height: 30px; }
+.gapc-menu { position: absolute; z-index: 6; min-width: 190px; padding: 4px; background: #23252b; color: #e7e9ee; border: 1px solid #3d4049; border-radius: 8px; box-shadow: 0 8px 26px rgba(0,0,0,.5); }
+.gapc-menu button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 16px; padding: 6px 9px; color: inherit; background: none; border: 0; border-radius: 5px; font: inherit; text-align: left; cursor: pointer; }
+.gapc-menu button:hover, .gapc-menu button:focus-visible { background: color-mix(in srgb, var(--gapc-accent) 28%, transparent); outline: none; }
+.gapc-menu button span { color: #9aa0ac; }
+.gapc-menu hr { margin: 4px 2px; border: 0; border-top: 1px solid #3d4049; }
+.gapc-menu .gapc-danger { color: #ff8686; }
+
+.gapc-status { display: flex; align-items: center; gap: 8px; min-height: 26px; padding: 3px 8px; border-top: 1px solid var(--gapc-line); color: var(--gapc-dim); flex: none; }
+.gapc-hint { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.gapc-chips { display: flex; gap: 4px; flex: none; max-width: 60%; overflow: hidden; }
+.gapc-chip { padding: 1px 7px; border: 1px solid var(--gapc-line); border-radius: 10px; white-space: nowrap; color: var(--gapc-fg); }
+.gapc-chip.gapc-warn { border-color: var(--gapc-warn); color: var(--gapc-warn); }
+.gapc-panel { position: absolute; z-index: 4; right: 8px; bottom: 8px; width: min(460px, calc(100% - 16px)); max-height: calc(100% - 16px); display: none; flex-direction: column;
+  background: #23252b; color: #e7e9ee; border: 1px solid #3d4049; border-radius: 10px; box-shadow: 0 8px 26px rgba(0,0,0,.5); }
+.gapc-panel.gapc-open { display: flex; }
+.gapc-panel header { display: flex; align-items: center; justify-content: space-between; padding: 6px 6px 6px 10px; border-bottom: 1px solid #3d4049; font-weight: 600; }
+.gapc-panel pre { margin: 0; padding: 10px; overflow: auto; white-space: pre-wrap; word-break: break-word; font: 12px/1.45 ui-monospace, Consolas, monospace; user-select: text; -webkit-user-select: text; }
+.gapc-panel .gapc-warnlist { padding: 8px 10px 0; color: var(--gapc-warn); }
+.gapc-toast { position: absolute; z-index: 7; left: 50%; top: 10px; transform: translateX(-50%); max-width: 80%; padding: 6px 12px; background: #2b2e36; color: #fff; border: 1px solid #4a4e59; border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.45); opacity: 0; transition: opacity .2s; pointer-events: none; }
+.gapc-toast.gapc-open { opacity: 1; }
