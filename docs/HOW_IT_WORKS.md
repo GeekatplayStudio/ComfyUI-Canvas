@@ -28,8 +28,10 @@ While you edit, the canvas asks the server for a live preview of the compiled pr
 [`compiler.py`](../compiler.py) is pure Python with no ComfyUI imports. For the chosen
 [model profile](../profiles.py) it decides:
 
-1. **Edit or compose.** One unrotated image covering 90% of the frame is a base image to edit.
-   Otherwise, if anything is placed and the profile uses a layout guide, the rendered frame becomes image 1.
+1. **Edit or compose.** One unrotated image covering 90% of the frame is a base image to edit, for
+   every model that takes images. Otherwise, if anything is placed and the profile uses a layout guide,
+   the rendered frame becomes image 1. Without a guide, placed images get a *"new scene"* opening line,
+   and placed sketches the model cannot see are described by their notes and position only.
 2. **Image slots.** Real images first, then shelf sketches, in label order. When there are more images
    than the model takes, placed items are dropped first (they still show in the layout guide) and a
    warning is raised.
@@ -66,6 +68,12 @@ Same three seeds in every row, Qwen Image Edit 2511 with the Lightning 4-step Lo
 
 So the layout still matters: put subjects roughly where they should end up.
 
+**MiniMax H3 Image** goes further: it always edits `<Picture 1>`, so with the layout guide it repainted
+the collage itself, white background, scribbles and all. Its profile therefore sends no guide. Placed
+images are introduced with *"Create one single, seamless, full-frame image of a new scene. Take only the
+subjects from the pictures, not their backgrounds."*, sketches become position notes (*"At the
+bottom-center of the frame: Rocky hill."*), and the AI director supplies the scene description.
+
 ## 3. The node
 
 [`canvas_node.py`](../canvas_node.py) is a V3 ComfyUI node. It compiles the scene, loads the images for
@@ -77,8 +85,10 @@ connects its outputs to the model's own native nodes.
 
 `brief` describes the canvas in plain words (items, slots, notes in order, the draft prompt) and
 `director` is a system prompt asking a vision-language model to describe the final picture in one
-paragraph. In the *AI Director* workflow, a local Qwen3-VL 8B reads the brief together with the
-annotated canvas and the reference images, and its paragraph is appended to the compiled prompt.
+paragraph. In the *Qwen Image Edit + AI Director* workflow, a local Qwen3-VL 8B reads the brief together
+with the annotated canvas and the reference images, and its paragraph is appended to the compiled prompt.
+In the *MiniMax H3 Image (local)* workflow the director is on by default (Qwen3.5 9B) and its paragraph
+comes first, so a canvas with only images, sketches and notes still gets a full scene description.
 
 Small local models are good at describing a scene but unreliable at keeping image tokens like
 `Picture 3` straight, so the director only adds description; the compiled prompt keeps the exact

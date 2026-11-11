@@ -1,0 +1,601 @@
+{
+  "id": "d69a0e42-4f52-4f58-a892-1e983b806497",
+  "revision": 0,
+  "last_node_id": 6,
+  "last_link_id": 12,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "MarkdownNote",
+      "pos": [
+        -460,
+        -330
+      ],
+      "size": [
+        420,
+        520
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "title": "How to use",
+      "properties": {},
+      "widgets_values": [
+        "## Geekatplay Canvas - MiniMax H3 Image (partner API, 2K / 4K)\n\n1. Drop or paste images onto the canvas. **Inside the frame** they are part of the picture, **outside** they are references only.\n2. Draw with the pen (B). Strokes close together become one sketch.\n3. Right-click anywhere (or press N) to pin a note: *girl climbs the tree from this side*, *dress her in this suit*.\n4. Add an overall prompt below the canvas. Mention items as @image1, @sketch1; the canvas turns them into MiniMax's @Image1, @Image2.\n5. Pick the aspect ratio in the canvas toolbar, then Run. The canvas size (MP) only sets the layout guide; the **size** widget on the MiniMax node sets the output.\n\n**Output size:** `4K` (default) or `2K` with aspect ratio `auto` follows the first image, which is the canvas layout. Set a fixed ratio when only shelf references are used. `custom` takes any width x height up to 7680 px (0.65 to 20 MP, at most 3:1).\n\n**Model:** `MiniMax-H3-Image` for best quality, `-Highspeed` for faster drafts. The canvas sends the layout plus up to 7 references; edits always get MiniMax's prompt enhancement, and **revised_prompt** shows what it wrote.\n\nNeeds a Comfy account with credits; the price badge on the node shows the estimate."
+      ],
+      "widgets_values_named": {
+        "text": "## Geekatplay Canvas - MiniMax H3 Image (partner API, 2K / 4K)\n\n1. Drop or paste images onto the canvas. **Inside the frame** they are part of the picture, **outside** they are references only.\n2. Draw with the pen (B). Strokes close together become one sketch.\n3. Right-click anywhere (or press N) to pin a note: *girl climbs the tree from this side*, *dress her in this suit*.\n4. Add an overall prompt below the canvas. Mention items as @image1, @sketch1; the canvas turns them into MiniMax's @Image1, @Image2.\n5. Pick the aspect ratio in the canvas toolbar, then Run. The canvas size (MP) only sets the layout guide; the **size** widget on the MiniMax node sets the output.\n\n**Output size:** `4K` (default) or `2K` with aspect ratio `auto` follows the first image, which is the canvas layout. Set a fixed ratio when only shelf references are used. `custom` takes any width x height up to 7680 px (0.65 to 20 MP, at most 3:1).\n\n**Model:** `MiniMax-H3-Image` for best quality, `-Highspeed` for faster drafts. The canvas sends the layout plus up to 7 references; edits always get MiniMax's prompt enhancement, and **revised_prompt** shows what it wrote.\n\nNeeds a Comfy account with credits; the price badge on the node shows the estimate."
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 2,
+      "type": "GeekatplayCanvas",
+      "pos": [
+        0,
+        0
+      ],
+      "size": [
+        900,
+        980
+      ],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "scene",
+          "name": "scene",
+          "type": "GAP_CANVAS",
+          "widget": {
+            "name": "scene"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            2
+          ]
+        },
+        {
+          "localized_name": "annotated",
+          "name": "annotated",
+          "type": "IMAGE",
+          "links": [
+            1
+          ]
+        },
+        {
+          "localized_name": "image_1",
+          "name": "image_1",
+          "type": "IMAGE",
+          "links": [
+            3
+          ]
+        },
+        {
+          "localized_name": "image_2",
+          "name": "image_2",
+          "type": "IMAGE",
+          "links": [
+            4
+          ]
+        },
+        {
+          "localized_name": "image_3",
+          "name": "image_3",
+          "type": "IMAGE",
+          "links": [
+            5
+          ]
+        },
+        {
+          "localized_name": "image_4",
+          "name": "image_4",
+          "type": "IMAGE",
+          "links": [
+            6
+          ]
+        },
+        {
+          "localized_name": "image_5",
+          "name": "image_5",
+          "type": "IMAGE",
+          "links": [
+            7
+          ]
+        },
+        {
+          "localized_name": "image_6",
+          "name": "image_6",
+          "type": "IMAGE",
+          "links": [
+            8
+          ]
+        },
+        {
+          "localized_name": "image_7",
+          "name": "image_7",
+          "type": "IMAGE",
+          "links": [
+            9
+          ]
+        },
+        {
+          "localized_name": "image_8",
+          "name": "image_8",
+          "type": "IMAGE",
+          "links": [
+            10
+          ]
+        },
+        {
+          "localized_name": "width",
+          "name": "width",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "localized_name": "height",
+          "name": "height",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "localized_name": "brief",
+          "name": "brief",
+          "type": "STRING",
+          "links": null
+        },
+        {
+          "localized_name": "director",
+          "name": "director",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "aux_id": "GeekatplayStudio/ComfyUI-Canvas",
+        "ver": "0455753c883ca93c412cacc266eccd23c06e5811",
+        "Node name for S&R": "GeekatplayCanvas"
+      },
+      "widgets_values": [
+        "{\"v\":1,\"model\":\"minimax_h3\",\"layout\":\"auto\",\"frame\":{\"ratio\":\"16:9\",\"mp\":1,\"w\":1360,\"h\":768},\"items\":[]}",
+        ""
+      ],
+      "widgets_values_named": {
+        "scene": "{\"v\":1,\"model\":\"minimax_h3\",\"layout\":\"auto\",\"frame\":{\"ratio\":\"16:9\",\"mp\":1,\"w\":1360,\"h\":768},\"items\":[]}",
+        "prompt": ""
+      }
+    },
+    {
+      "id": 3,
+      "type": "PreviewImage",
+      "pos": [
+        0,
+        1030
+      ],
+      "size": [
+        900,
+        560
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 1
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 4,
+      "type": "MinimaxH3ImageNode",
+      "pos": [
+        960,
+        0
+      ],
+      "size": [
+        420,
+        412
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "image_1",
+          "name": "images.image_1",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 3
+        },
+        {
+          "localized_name": "image_2",
+          "name": "images.image_2",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 4
+        },
+        {
+          "localized_name": "image_3",
+          "name": "images.image_3",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 5
+        },
+        {
+          "localized_name": "model",
+          "name": "model",
+          "type": "COMBO",
+          "widget": {
+            "name": "model"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "prompt",
+          "name": "prompt",
+          "type": "STRING",
+          "widget": {
+            "name": "prompt"
+          },
+          "link": 2
+        },
+        {
+          "localized_name": "size",
+          "name": "size",
+          "type": "COMFY_DYNAMICCOMBO_V3",
+          "widget": {
+            "name": "size"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "aspect_ratio",
+          "name": "size.aspect_ratio",
+          "type": "COMBO",
+          "widget": {
+            "name": "size.aspect_ratio"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "enhance_prompt",
+          "name": "enhance_prompt",
+          "type": "BOOLEAN",
+          "widget": {
+            "name": "enhance_prompt"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "seed",
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": null
+        },
+        {
+          "localized_name": "image_4",
+          "name": "images.image_4",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 6
+        },
+        {
+          "localized_name": "image_5",
+          "name": "images.image_5",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 7
+        },
+        {
+          "localized_name": "image_6",
+          "name": "images.image_6",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 8
+        },
+        {
+          "localized_name": "image_7",
+          "name": "images.image_7",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 9
+        },
+        {
+          "localized_name": "image_8",
+          "name": "images.image_8",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 10
+        },
+        {
+          "localized_name": "image_9",
+          "name": "images.image_9",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "IMAGE",
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            11
+          ]
+        },
+        {
+          "localized_name": "revised_prompt",
+          "name": "revised_prompt",
+          "type": "STRING",
+          "links": [
+            12
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "MinimaxH3ImageNode"
+      },
+      "widgets_values": [
+        "MiniMax-H3-Image",
+        "",
+        "4K",
+        "auto",
+        true,
+        42,
+        "randomize"
+      ],
+      "widgets_values_named": {
+        "model": "MiniMax-H3-Image",
+        "prompt": "",
+        "size": "4K",
+        "size.aspect_ratio": "auto",
+        "enhance_prompt": true,
+        "seed": 42,
+        "control_after_generate": "randomize"
+      },
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 5,
+      "type": "SaveImage",
+      "pos": [
+        1440,
+        0
+      ],
+      "size": [
+        520,
+        560
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "link": 11
+        },
+        {
+          "localized_name": "filename_prefix",
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "images",
+          "name": "images",
+          "type": "IMAGE",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0"
+      },
+      "widgets_values": [
+        "GeekatplayCanvas/minimax_h3"
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "GeekatplayCanvas/minimax_h3"
+      }
+    },
+    {
+      "id": 6,
+      "type": "PreviewAny",
+      "pos": [
+        960,
+        680
+      ],
+      "size": [
+        420,
+        300
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "localized_name": "source",
+          "name": "source",
+          "type": "*",
+          "link": 12
+        }
+      ],
+      "outputs": [
+        {
+          "localized_name": "STRING",
+          "name": "STRING",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "title": "MiniMax revised prompt",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.45.0",
+        "Node name for S&R": "PreviewAny"
+      },
+      "widgets_values": [],
+      "widgets_values_named": {}
+    }
+  ],
+  "links": [
+    [
+      1,
+      2,
+      1,
+      3,
+      0,
+      "IMAGE"
+    ],
+    [
+      11,
+      4,
+      0,
+      5,
+      0,
+      "IMAGE"
+    ],
+    [
+      12,
+      4,
+      1,
+      6,
+      0,
+      "STRING"
+    ],
+    [
+      3,
+      2,
+      2,
+      4,
+      0,
+      "IMAGE"
+    ],
+    [
+      4,
+      2,
+      3,
+      4,
+      1,
+      "IMAGE"
+    ],
+    [
+      5,
+      2,
+      4,
+      4,
+      2,
+      "IMAGE"
+    ],
+    [
+      2,
+      2,
+      0,
+      4,
+      4,
+      "STRING"
+    ],
+    [
+      6,
+      2,
+      5,
+      4,
+      9,
+      "IMAGE"
+    ],
+    [
+      7,
+      2,
+      6,
+      4,
+      10,
+      "IMAGE"
+    ],
+    [
+      8,
+      2,
+      7,
+      4,
+      11,
+      "IMAGE"
+    ],
+    [
+      9,
+      2,
+      8,
+      4,
+      12,
+      "IMAGE"
+    ],
+    [
+      10,
+      2,
+      9,
+      4,
+      13,
+      "IMAGE"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ds": {
+      "scale": 0.6,
+      "offset": [
+        520,
+        380
+      ]
+    }
+  },
+  "version": 0.4
+}

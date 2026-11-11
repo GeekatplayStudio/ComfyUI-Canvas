@@ -133,6 +133,7 @@ visible through the layout guide).
 | Qwen Image 2.1 / 2.1 Turbo | 8 | `image 1` | `TextEncodeQwenImage21` |
 | FLUX.2 Klein / Dev | 8 | `image 1` | `CLIPTextEncode` + `ReferenceMultiLatent` |
 | FLUX 3 Klein | 8 | `<ref_image_0>`, plus an `<obj_N>` box table | `CLIPTextEncode` + `ReferenceMultiLatent` |
+| MiniMax H3 Image (4K, local) | 8 | `<Picture 1>` | `MiniMaxH3ImageConditioning` |
 | MOSS-Image Edit (edit LoRA) | 8 | `Picture 1` | `TextEncodeMOSSImageEdit` |
 | MOSS-Image layout (text to image) | none | JSON layout with bounding boxes | `CLIPTextEncode` |
 | Ideogram 4 JSON (text to image) | none | JSON prompt with bounding boxes | `CLIPTextEncode` |
@@ -141,6 +142,7 @@ visible through the layout guide).
 | OpenAI GPT Image 2.6 *(partner API)* | 8 | `image 1` | `OpenAIGPTImageNodeV2` |
 | Seedream 4.5 / 5.0 *(partner API)* | 8 | `image 1` | `ByteDanceSeedreamNodeV3` |
 | Qwen Image 3 Edit *(partner API)* | 3 | `@Image1` | `QwenImageEditApi` |
+| MiniMax H3 Image, 2K / 4K *(partner API)* | 8 | `@Image1` | `MinimaxH3ImageNode` |
 | Generic | 8 | `@image1` | any other multi-reference model |
 
 **Text-only models** cannot see pictures. For them each placed image or sketch becomes a box (MOSS,
@@ -157,7 +159,26 @@ In the [`workflows`](workflows/) folder. Each one has a *How to use* note and li
 | **Qwen Image Edit 2511 + AI Director** | the above + `qwen3vl_8b_int8_convrot` | Generated |
 | **FLUX.2 Klein 9B** | `flux-2-klein-9b-fp8`, `qwen_3_8b_fp8mixed`, `full_encoder_small_decoder` | Generated |
 | **MOSS-Image Layout (text to image)** | `moss_image_sft_int8_convrot`, `qwen3.5_9b_w4a8_gptq`, `flux2-vae_small` | Generated |
+| **MiniMax H3 Image 4K (local)** | `minimax_h3_image_pruned_int8_convrot`, `qwen3vl_32b_minimax_h3_int8_convrot`, `minimax_h3_image_vae_fp16`, `qwen3.5_9b_w4a8_gptq` (AI director) | Generated on an RTX 3090 at 3840x2176 |
 | **Nano Banana 2.1 (API)** | none, needs a Comfy account with credits | Loads and validates, not run |
+| **MiniMax H3 Image 4K (API)** | none, needs a Comfy account with credits | Loads and validates, not run |
+
+**MiniMax H3 Image (local)** uses the same files and settings as ComfyUI's own MiniMax H3 Image template
+(6 steps, cfg 1, euler / simple). The output takes the canvas aspect ratio at the **Output megapixels**
+value: 8 MP is 4K, the model works from 4 to 20 MP and is best around 16 MP.
+
+MiniMax H3 edits `<Picture 1>`, so the canvas does not send it the layout collage (it would repaint the
+collage). Positions and sketches reach it as words, and the **AI director** (a local Qwen3.5 9B vision
+model) looks at the annotated canvas, the references and the notes and writes a description of the final
+picture that goes first in the prompt. A canvas without a written prompt still gets a full scene. One
+image filling the frame is still the base image to edit. On an RTX 3090 a full 8 MP run with the director
+takes about 5 to 8 minutes, most of it loading the three large models.
+
+The MiniMax **API** workflow renders at **4K** by default (or 2K, or a custom size up to 7680 px), with aspect
+ratio `auto` following the canvas layout. The **revised_prompt** box shows how MiniMax rewrote the prompt.
+It needs ComfyUI from 2026-11-11 or later; until the empty-input fix below is upstream, edit
+`comfy_api_nodes/nodes_minimax.py` so `MinimaxH3ImageNode` skips empty image inputs:
+`image_tensors = [t for t in images.values() if t is not None]`.
 
 ![The Qwen Image Edit workflow](docs/images/workflow-qwen-edit.png)
 
@@ -199,6 +220,7 @@ Inputs: the canvas itself, and `prompt`, the overall description.
 | The wheel zooms the graph instead of the canvas | Click inside the canvas first. Until it has focus the wheel belongs to the graph, as ComfyUI expects |
 | *"... is missing from the input folder"* | An image in a shared workflow is not in your `input/geekatplay_canvas/` folder. Drop it onto the canvas again |
 | The result copies the pasted collage | Write the overall prompt as the scene you want, and keep subjects where they belong (see tips) |
+| MiniMax H3 keeps a white background or draws the sketches | Pick *MiniMax H3 Image (4K)* in the canvas model menu, keep *Layout: auto* and the AI director on, and pin a note on each sketch saying what it is |
 | An image is ignored | The status bar shows a warning when a model takes fewer images than you placed |
 | The canvas is too small | Resize the node, or use the maximize button (Esc to return) |
 

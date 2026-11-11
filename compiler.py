@@ -96,13 +96,15 @@ def compile_scene(scene, prompt=""):
     placed = [i for i in things if is_placed(i, w, h)]
     placed_ids = {i["id"] for i in placed}
 
-    use_layout = profile.max_images > 0 and bool(placed) and (sc["layout"] == "on" or (sc["layout"] == "auto" and profile.layout_guide))
+    layout_on = profile.max_images > 0 and bool(placed) and sc["layout"] != "off"
     base = None
-    if use_layout and len(placed) == 1 and placed[0]["type"] == "image" and abs(placed[0].get("rot", 0)) < 0.01:
+    if layout_on and len(placed) == 1 and placed[0]["type"] == "image" and abs(placed[0].get("rot", 0)) < 0.01:
         x0, y0, x1, y1 = aabb(placed[0])
         covered = max(0, min(x1, w) - max(x0, 0)) * max(0, min(y1, h) - max(y0, 0))
         if covered >= 0.9 * w * h:
             base = placed[0]
+    # a frame-filling image is the base image even for models that get no layout guide
+    use_layout = base is not None or (layout_on and (sc["layout"] == "on" or profile.layout_guide))
 
     # Sketches inside the picture are only visible through the layout; outside it they are their own reference image.
     refs = [i for i in things if i is not base and (i["type"] == "image" or i["id"] not in placed_ids)]
@@ -233,6 +235,9 @@ def compile_scene(scene, prompt=""):
         for target, note, _, text in instructions:
             if target is not None and target["id"] in tokens:
                 folded.setdefault(target["id"], []).append(sentence(text))
+            elif target is not None and target["type"] == "sketch" and not use_layout and not target.get("name", "").strip():
+                # the model never sees this sketch, so the note is all there is of it
+                loose.append("At the {} of the {}: {}".format(position(target["cx"], target["cy"], w, h), where, sentence(text)))
             elif target is not None:
                 spot = describe(target)
                 loose.append("{}: {}".format(spot[0].upper() + spot[1:], sentence(text)))
@@ -254,6 +259,9 @@ def compile_scene(scene, prompt=""):
                 lines.append(prompt)
             lines.append("Create one single, seamless, full-frame image of a new scene. {} is only a rough sketch of the arrangement: use it for the positions and sizes of things, "
                          "but do not copy it, and do not show any pasted photo, white background, frame or drawn line from it.".format(layout_token))
+        elif any(i["id"] in placed_ids for i in refs):
+            # without a guide image, edit models otherwise keep the background of the first picture
+            lines.append("Create one single, seamless, full-frame image of a new scene. Take only the subjects from the pictures, not their backgrounds.")
         if profile.layout == "flux3":
             objects = {item["id"]: "<obj_{}>".format(n + 1) for n, item in enumerate(placed)}
         for item in refs:
@@ -303,5 +311,6 @@ def compile_scene(scene, prompt=""):
                     "relates to the others, and describe the single final picture the user wants in one paragraph of at most 120 words: "
                     "the subjects and what they look like in the references, what they are doing, where they are in the frame, the setting and the light. "
                     "Follow every instruction the user gave and do not invent new subjects. "
-                    "Do not mention the canvas, pins, labels, sketches, picture numbers or image names. Output only the paragraph.")
+                    "Do not mention the canvas, pins, labels, sketches, picture numbers or image names. Output only the paragraph. "
+                    "Start directly with the description: no introduction, heading, label or formatting.")
     return out

@@ -35,6 +35,10 @@ PROFILES = [
     Profile("flux3", "FLUX 3 Klein", "local", 8, ref="<ref_image_{n}>", ref_base=0, layout="flux3", layout_guide=False,
             nodes="ReferenceMultiLatent + CLIPTextEncode",
             note="Placements are sent as a <obj_N> bounding-box table."),
+    Profile("minimax_h3_local", "MiniMax H3 Image (4K)", "local", 8, ref="<Picture {n}>", layout_guide=False,
+            nodes="MiniMaxH3ImageConditioning",
+            note="It edits <Picture 1>, so the layout reaches it as words and the AI director's description, not as a collage. "
+                 "Renders 4 to 20 MP, best around 16 MP."),
     Profile("moss_edit", "MOSS-Image Edit (edit LoRA)", "local", 8, ref="Picture {n}",
             nodes="TextEncodeMOSSImageEdit",
             note="Needs the MOSS-Image edit LoRA."),
@@ -59,6 +63,9 @@ PROFILES = [
     Profile("qwen_api", "Qwen Image 3 Edit", "api", 3, ref="@Image{n}",
             nodes="QwenImageEditApi",
             note="Partner API node, uses credits. Up to 3 images."),
+    Profile("minimax_h3", "MiniMax H3 Image API (2K / 4K)", "api", 8, ref="@Image{n}",
+            nodes="MinimaxH3ImageNode",
+            note="Partner API node, uses credits. Renders 2K, 4K or a custom size up to 7680 px."),
     Profile("generic", "Generic (@image1 tags)", "local", 8, ref="@image{n}",
             note="For any other multi-reference model."),
 ]

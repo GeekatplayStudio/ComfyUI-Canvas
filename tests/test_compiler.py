@@ -82,7 +82,8 @@ class CompilerTest(unittest.TestCase):
     def test_mentions_are_renamed_per_model(self):
         items = [image(1, 512, 512, 1024, 1024), image(4, 1500, 200)]
         for model, expected in (("qwen_edit", "Put Picture 2 on Picture 1"), ("flux2", "Put image 2 on image 1"),
-                                ("qwen_api", "Put @Image2 on @Image1"), ("generic", "Put @image2 on @image1")):
+                                ("qwen_api", "Put @Image2 on @Image1"), ("minimax_h3", "Put @Image2 on @Image1"),
+                                ("minimax_h3_local", "Put <Picture 2> on <Picture 1>"),("generic", "Put @image2 on @image1")):
             out = compiler.compile_scene(scene(model, items, 1024, 1024), "Put @image4 on @Image 1")
             self.assertIn(expected, out.prompt, model)
 
@@ -98,6 +99,19 @@ class CompilerTest(unittest.TestCase):
         self.assertEqual([s["token"] for s in out.slots], ["image 1", "image 2"])
         out = compiler.compile_scene(scene("flux2", [image(1, 2000, 300)]))
         self.assertEqual([s["kind"] for s in out.slots], ["image"])
+
+    def test_minimax_local_gets_words_not_a_collage(self):
+        items = [image(1, 578, 380, 288, 384), sketch(1, 740, 650, 1360, 260), note(1, 866, 568, "rocky hill")]
+        out = compiler.compile_scene(scene("minimax_h3_local", items))
+        self.assertEqual([s["kind"] for s in out.slots], ["image"])
+        self.assertTrue(out.prompt.startswith("Create one single, seamless, full-frame image of a new scene. Take only the subjects"))
+        self.assertIn("The subject of <Picture 1> appears once, at the center of the frame.", out.prompt)
+        self.assertIn("At the bottom-center of the frame: Rocky hill.", out.prompt)
+        self.assertNotIn("sketch", out.prompt)
+        # one image filling the frame is still the base image to edit
+        out = compiler.compile_scene(scene("minimax_h3_local", [image(1, 680, 384, 1360, 768), image(2, 1600, 300)]))
+        self.assertEqual([s["kind"] for s in out.slots], ["layout", "image"])
+        self.assertTrue(out.prompt.startswith("<Picture 1> is the base image."))
 
     def test_moss_layout_json(self):
         out = compiler.compile_scene(scene("moss_layout", TREE_SCENE), "a quiet evening")

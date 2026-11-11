@@ -73,8 +73,10 @@ Strokes drawn **close to each other merge into one sketch item**, so a hill draw
 one thing you can move, resize, name and annotate. A stroke far away starts a new sketch.
 The eraser (`E`) removes whole strokes it touches; an empty sketch disappears.
 
-Sketches inside the frame reach the model through the layout guide. Sketches on the shelf are rendered
-on white and sent as their own reference image, which is how you show a hairstyle or a logo shape.
+Sketches inside the frame reach the model through the layout guide. For models without a guide
+(FLUX 3, MiniMax H3 Image local) a sketch inside the frame is described by its name or its notes and
+position, so pin a note on it ("rocky hill"). Sketches on the shelf are rendered on white and sent as
+their own reference image, which is how you show a hairstyle or a logo shape.
 
 ## Notes
 
@@ -105,7 +107,8 @@ for that image, so the same canvas works for any model:
 | Qwen Image Edit | `Picture 3 (girl)` |
 | FLUX.2, Qwen 2.1, partner models | `image 3 (girl)` |
 | FLUX 3 | `<ref_image_2> (girl)` |
-| Qwen Image 3 API | `@Image3 (girl)` |
+| MiniMax H3 Image (local) | `<Picture 3> (girl)` |
+| Qwen Image 3 API, MiniMax H3 Image API | `@Image3 (girl)` |
 | Text-only models | `the girl` |
 
 (The numbers shift by one when a layout guide takes the first slot.)
@@ -126,7 +129,9 @@ The `width` and `height` outputs carry the frame size to the empty latent.
 When at least one item is placed in the frame, the canvas renders the frame (without pins and labels)
 and sends it as the model's first image, so the model sees where things go.
 
-- **auto** (default): on for models that accept images, off for FLUX 3, which gets a bounding-box table instead.
+- **auto** (default): on for models that accept images, off for FLUX 3, which gets a bounding-box table
+  instead, and for MiniMax H3 Image (local), which would repaint the guide; its workflow uses the AI
+  director to describe the scene. A base image filling the frame is sent in every mode except *off*.
 - **on / off:** force it. With *off*, placed items are sent only as references and their positions go into words.
 
 ## The right-click menu
